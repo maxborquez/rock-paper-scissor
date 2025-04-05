@@ -7,7 +7,8 @@ function getSecureRandomInt(max) {
 
 // Class representing a player
 class Player {
-  constructor() {
+  constructor(name) {
+    this.name = name;
     this.score = 0; // Initialize player score
   }
 
@@ -19,9 +20,9 @@ class Player {
 
 // Class representing the game logic
 class Game {
-  constructor() {
-    this.player_you = new Player();  // Player controlled by the user
-    this.player_cp = new Player();   // Computer-controlled player
+  constructor(name) {
+    this.player_you = new Player(name); // Player controlled by the user
+    this.player_cp = new Player("CPU"); // Computer-controlled player
   }
 
   // Update the score display on the screen
@@ -93,17 +94,17 @@ class Game {
     // Determine the result
     if (youHand == cpHand) {
       result = "draw";
-      body.style.backgroundColor = "#f9e2af"; // Yellow for draw
+      body.style.backgroundColor = "var(--yellow)"; // Yellow for draw
     } else if (
       (youHand == 0 && cpHand == 1) || // Rock vs Paper
       (youHand == 1 && cpHand == 2) || // Paper vs Scissors
-      (youHand == 2 && cpHand == 0)    // Scissors vs Rock
+      (youHand == 2 && cpHand == 0) // Scissors vs Rock
     ) {
       result = "lose";
-      body.style.backgroundColor = "#f38ba8"; // Red for losing
+      body.style.backgroundColor = "var(--red)"; // Red for losing
     } else {
       result = "win";
-      body.style.backgroundColor = "#a6e3a1"; // Green for winning
+      body.style.backgroundColor = "var(--green)"; // Green for winning
     }
 
     // After 2 seconds, update scores and reset styles
@@ -115,9 +116,9 @@ class Game {
       }
 
       // Reset background and name colors
-      body.style.backgroundColor = "#1e1e2e";
+      body.style.backgroundColor = "var(--mantle)";
       playerName.forEach((name) => {
-        name.style.color = "#cdd6f4";
+        name.style.color = "var(--text)";
       });
 
       // Update the displayed scores
@@ -134,23 +135,37 @@ class Game {
   }
 }
 
-// Create a new game instance
-const game = new Game();
+const dialog = document.getElementById("nameDialog");
+const form = document.getElementById("dialogForm");
 
-// Get button elements
-const rock = document.getElementById("rock");
-const paper = document.getElementById("paper");
-const scissor = document.getElementById("scissor");
+form.addEventListener("submit", (event) => {
 
-// Add event listeners for each move
-rock.addEventListener("click", () => {
-  game.play(0); // Rock
-});
+  const playerName = document.getElementById("playerName").value;
+  console.log(playerName)
+  // Create a new game instance
+  const game = new Game(playerName);
 
-paper.addEventListener("click", () => {
-  game.play(1); // Paper
-});
+  const displayName = document.getElementById("myName");
+  displayName.textContent = playerName;
 
-scissor.addEventListener("click", () => {
-  game.play(2); // Scissors
+
+  // Get button elements
+  const rock = document.getElementById("rock");
+  const paper = document.getElementById("paper");
+  const scissor = document.getElementById("scissor");
+
+  // Add event listeners for each move
+  rock.addEventListener("click", () => {
+    game.play(0); // Rock
+  });
+
+  paper.addEventListener("click", () => {
+    game.play(1); // Paper
+  });
+
+  scissor.addEventListener("click", () => {
+    game.play(2); // Scissors
+  });
+
+  dialog.close(); // Cierra el diálogo
 });

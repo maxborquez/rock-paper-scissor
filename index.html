@@ -13,15 +13,32 @@
 
     <main>
       <div id="left-hand">
-        <h3 class="name">You</h3>
+        <h3 class="name" id="myName">You</h3>
         <h1><span id="left-score">0</span></h1>
       </div>
 
       <div id="right-hand">
-        <h3 class="name">CP</h3>
+        <h3 class="name" >CP</h3>
         <h1><span id="right-score">0</span></h1>
       </div>
+
+      <dialog id="nameDialog" open>
+        <form method="dialog" id="dialogForm">
+          <div id="form-container">
+            <div class="name-row">
+              <label for="playerName">Input your name</label>
+              <input type="text" id="playerName" name="playerName" />
+            </div>
+
+            <menu>
+              <button type="submit" id="ready">Ready</button>
+            </menu>
+          </div>
+        </form>
+      </dialog>
     </main>
+
+
 
     <footer>
       <button id="rock"><img src="icons/fist.png" alt="" /></button>
