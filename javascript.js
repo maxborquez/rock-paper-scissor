@@ -13,7 +13,7 @@ class Player {
   }
 
   // Method to randomly choose a hand (0 = rock, 1 = paper, 2 = scissors)
-  cpHand() {
+  cpuHand() {
     return getSecureRandomInt(3);
   }
 }
@@ -22,20 +22,20 @@ class Player {
 class Game {
   constructor(name) {
     this.player_you = new Player(name); // Player controlled by the user
-    this.player_cp = new Player("CPU"); // Computer-controlled player
+    this.player_cpu = new Player("cpu"); // Computer-controlled player
   }
 
   // Update the score display on the screen
   updateScores() {
     const youScore = document.getElementById("left-score");
-    const cpScore = document.getElementById("right-score");
+    const cpuScore = document.getElementById("right-score");
 
     youScore.textContent = this.player_you.score;
-    cpScore.textContent = this.player_cp.score;
+    cpuScore.textContent = this.player_cpu.score;
   }
 
   // Display hands as images, then restore score view after 2 seconds
-  displayHand(youHand, cpHand) {
+  displayHand(youHand, cpuHand) {
     const left = document.getElementById("left-score");
     const right = document.getElementById("right-score");
 
@@ -55,7 +55,7 @@ class Game {
 
     // Display chosen hands as images
     left.innerHTML = getHandImage(youHand);
-    right.innerHTML = getHandImage(cpHand);
+    right.innerHTML = getHandImage(cpuHand);
 
     // Disable buttons temporarily
     const buttons = document.querySelectorAll("#rock, #paper, #scissor");
@@ -66,7 +66,7 @@ class Game {
     // After 2 seconds, revert to showing the scores
     setTimeout(() => {
       left.textContent = this.player_you.score;
-      right.textContent = this.player_cp.score;
+      right.textContent = this.player_cpu.score;
 
       // Re-enable buttons
       buttons.forEach((btn) => {
@@ -77,9 +77,9 @@ class Game {
 
   // Main game logic when a move is played
   play(youHand) {
-    let cpHand = this.player_cp.cpHand(); // Get computer's hand
+    let cpuHand = this.player_cpu.cpuHand(); // Get computer's hand
 
-    this.displayHand(youHand, cpHand); // Show the hands
+    this.displayHand(youHand, cpuHand); // Show the hands
 
     const body = document.querySelector("body");
     const playerName = document.querySelectorAll(".name");
@@ -92,13 +92,13 @@ class Game {
     });
 
     // Determine the result
-    if (youHand == cpHand) {
+    if (youHand == cpuHand) {
       result = "draw";
       body.style.backgroundColor = "var(--yellow)"; // Yellow for draw
     } else if (
-      (youHand == 0 && cpHand == 1) || // Rock vs Paper
-      (youHand == 1 && cpHand == 2) || // Paper vs Scissors
-      (youHand == 2 && cpHand == 0) // Scissors vs Rock
+      (youHand == 0 && cpuHand == 1) || // Rock vs Paper
+      (youHand == 1 && cpuHand == 2) || // Paper vs Scissors
+      (youHand == 2 && cpuHand == 0) // Scissors vs Rock
     ) {
       result = "lose";
       body.style.backgroundColor = "var(--red)"; // Red for losing
@@ -110,7 +110,7 @@ class Game {
     // After 2 seconds, update scores and reset styles
     setTimeout(() => {
       if (result == "lose") {
-        this.player_cp.score++;
+        this.player_cpu.score++;
       } else if (result == "win") {
         this.player_you.score++;
       }
@@ -131,20 +131,26 @@ class Game {
   // Print current scores to the console
   printConsoleScores() {
     console.log("score you: " + this.player_you.score);
-    console.log("score cp: " + this.player_cp.score);
+    console.log("score cpu: " + this.player_cpu.score);
   }
 }
 
+// Get dialog and form
 const dialog = document.getElementById("nameDialog");
 const form = document.getElementById("dialogForm");
 
+// Open the dialog modal
+dialog.showModal();
+
 form.addEventListener("submit", (event) => {
 
+  // Get the player name from the modal
   const playerName = document.getElementById("playerName").value;
-  console.log(playerName)
   // Create a new game instance
   const game = new Game(playerName);
 
+
+  // Get the text element with "You" and replace with your name
   const displayName = document.getElementById("myName");
   displayName.textContent = playerName;
 
