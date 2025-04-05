@@ -44,8 +44,11 @@ header {
   color: var(--text);
   text-align: center;
   width: 100%;
-  padding: 10px 0;
+  padding: 20px 0;
   margin-bottom: 5%;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 main{
@@ -107,7 +110,6 @@ button > img{
 .hand{
   display: flex;
   justify-content: center;
-  background-color: var(--lavender);
   border-radius: 15px;
   width: 10rem;
   height: auto;
